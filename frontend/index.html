@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gen - Biological Network Analysis</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        header {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            color: #667eea;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 1.1em;
+        }
+
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: 600;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: border-color 0.3s;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        textarea {
+            resize: vertical;
+            font-family: monospace;
+            min-height: 100px;
+        }
+
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            width: 100%;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .matrix-input {
+            display: grid;
+            gap: 5px;
+            margin-top: 10px;
+        }
+
+        .matrix-row {
+            display: flex;
+            gap: 5px;
+        }
+
+        .matrix-cell {
+            width: 40px;
+            height: 40px;
+            text-align: center;
+            padding: 0;
+        }
+
+        .networks-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
+        .network-item {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .network-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .network-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .network-name {
+            font-size: 1.3em;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .network-type {
+            background: #667eea;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+        }
+
+        .network-details {
+            color: #666;
+            margin-top: 10px;
+            font-size: 0.95em;
+        }
+
+        .network-actions {
+            margin-top: 15px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-small {
+            padding: 8px 16px;
+            font-size: 0.9em;
+            width: auto;
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        .btn-info {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+
+        .search-results {
+            margin-top: 20px;
+        }
+
+        .match-item {
+            background: #e8f5e9;
+            border-left-color: #4caf50;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #667eea;
+        }
+
+        .error {
+            background: #ffebee;
+            color: #c62828;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .success {
+            background: #e8f5e9;
+            color: #2e7d32;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .tab {
+            padding: 12px 24px;
+            background: #f0f0f0;
+            border: none;
+            border-radius: 8px 8px 0 0;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+
+        .tab.active {
+            background: #667eea;
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🧬 Gen - Biological Network Analysis</h1>
+            <p class="subtitle">Analyse biologischer Netzwerke mittels Subgraph-Algorithmus</p>
+        </header>
+
+        <div class="main-grid">
+            <!-- Linke Spalte: Netzwerk erstellen -->
+            <div class="card">
+                <h2>Neues Netzwerk erstellen</h2>
+                <div id="createMessage"></div>
+                
+                <div class="form-group">
+                    <label>Netzwerk-Name</label>
+                    <input type="text" id="networkName" placeholder="z.B. Glycolysis">
+                </div>
+
+                <div class="form-group">
+                    <label>Typ</label>
+                    <select id="networkType">
+                        <option value="metabolic">Metabolic</option>
+                        <option value="protein">Protein Interaction</option>
+                        <option value="gene_regulation">Gene Regulation</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Organismus</label>
+                    <input type="text" id="organism" placeholder="z.B. Homo sapiens">
+                </div>
+
+                <div class="form-group">
+                    <label>Beschreibung</label>
+                    <textarea id="description" placeholder="Optionale Beschreibung..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Knoten (Labels, komma-getrennt)</label>
+                    <input type="text" id="nodeLabels" placeholder="z.B. Glucose, G6P, F6P" 
+                           onchange="generateMatrixInput()">
+                </div>
+
+                <div class="form-group">
+                    <label>Adjacency Matrix</label>
+                    <div id="matrixInput"></div>
+                </div>
+
+                <button onclick="createNetwork()">Netzwerk erstellen</button>
+            </div>
+
+            <!-- Rechte Spalte: Netzwerk suchen -->
+            <div class="card">
+                <div class="tabs">
+                    <button class="tab active" onclick="switchTab('browse')">Durchsuchen</button>
+                    <button class="tab" onclick="switchTab('search')">Subgraph-Suche</button>
+                </div>
+
+                <div id="browseTab" class="tab-content active">
+                    <h2>Gespeicherte Netzwerke</h2>
+                    <div id="networksList" class="networks-list">
+                        <div class="loading">Lade Netzwerke...</div>
+                    </div>
+                </div>
+
+                <div id="searchTab" class="tab-content">
+                    <h2>Subgraph-Suche</h2>
+                    <div id="searchMessage"></div>
+                    
+                    <div class="form-group">
+                        <label>Such-Knoten (komma-getrennt)</label>
+                        <input type="text" id="searchLabels" placeholder="z.B. Glucose, G6P"
+                               onchange="generateSearchMatrixInput()">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Such-Matrix</label>
+                        <div id="searchMatrixInput"></div>
+                    </div>
+
+                    <button onclick="searchSubgraph()">Subgraph suchen</button>
+
+                    <div id="searchResults" class="search-results"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:8000/api';
+        let currentTab = 'browse';
+
+        // Tab-Wechsel
+        function switchTab(tab) {
+            currentTab = tab;
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(tc => tc.classList.remove('active'));
+            
+            event.target.classList.add('active');
+            document.getElementById(tab + 'Tab').classList.add('active');
+        }
+
+        // Matrix-Input generieren
+        function generateMatrixInput() {
+            const labels = document.getElementById('nodeLabels').value.split(',').map(s => s.trim()).filter(Boolean);
+            const n = labels.length;
+            
+            if (n === 0) return;
+            
+            let html = '<div class="matrix-input" style="grid-template-columns: repeat(' + n + ', 40px);">';
+            for (let i = 0; i < n; i++) {
+                html += '<div class="matrix-row">';
+                for (let j = 0; j < n; j++) {
+                    html += `<input type="number" class="matrix-cell" min="0" max="1" value="0" 
+                             id="cell_${i}_${j}">`;
+                }
+                html += '</div>';
+            }
+            html += '</div>';
+            
+            document.getElementById('matrixInput').innerHTML = html;
+        }
+
+        // Such-Matrix-Input generieren
+        function generateSearchMatrixInput() {
+            const labels = document.getElementById('searchLabels').value.split(',').map(s => s.trim()).filter(Boolean);
+            const n = labels.length;
+            
+            if (n === 0) return;
+            
+            let html = '<div class="matrix-input" style="grid-template-columns: repeat(' + n + ', 40px);">';
+            for (let i = 0; i < n; i++) {
+                html += '<div class="matrix-row">';
+                for (let j = 0; j < n; j++) {
+                    html += `<input type="number" class="matrix-cell" min="0" max="1" value="0" 
+                             id="search_cell_${i}_${j}">`;
+                }
+                html += '</div>';
+            }
+            html += '</div>';
+            
+            document.getElementById('searchMatrixInput').innerHTML = html;
+        }
+
+        // Matrix aus Inputs extrahieren
+        function getMatrixFromInputs(prefix = 'cell') {
+            const labels = prefix === 'cell' ? 
+                document.getElementById('nodeLabels').value.split(',').map(s => s.trim()).filter(Boolean) :
+                document.getElementById('searchLabels').value.split(',').map(s => s.trim()).filter(Boolean);
+            const n = labels.length;
+            const matrix = [];
+            
+            for (let i = 0; i < n; i++) {
+                const row = [];
+                for (let j = 0; j < n; j++) {
+                    const cell = document.getElementById(`${prefix}_${i}_${j}`);
+                    row.push(cell ? parseInt(cell.value) || 0 : 0);
+                }
+                matrix.push(row);
+            }
+            
+            return matrix;
+        }
+
+        // Netzwerk erstellen
+        async function createNetwork() {
+            const name = document.getElementById('networkName').value;
+            const networkType = document.getElementById('networkType').value;
+            const organism = document.getElementById('organism').value;
+            const description = document.getElementById('description').value;
+            const nodeLabels = document.getElementById('nodeLabels').value.split(',').map(s => s.trim()).filter(Boolean);
+            const adjacencyMatrix = getMatrixFromInputs();
+
+            if (!name || nodeLabels.length === 0) {
+                showMessage('createMessage', 'Bitte Namen und Knoten angeben', 'error');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE}/networks`, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        name, network_type: networkType, organism, description,
+                        node_labels: nodeLabels, adjacency_matrix: adjacencyMatrix
+                    })
+                });
+
+                const data = await response.json();
+                
+                if (data.success) {
+                    showMessage('createMessage', 'Netzwerk erfolgreich erstellt!', 'success');
+                    // Formular zurücksetzen
+                    document.getElementById('networkName').value = '';
+                    document.getElementById('description').value = '';
+                    document.getElementById('nodeLabels').value = '';
+                    document.getElementById('matrixInput').innerHTML = '';
+                    // Netzwerkliste aktualisieren
+                    loadNetworks();
+                } else {
+                    showMessage('createMessage', 'Fehler beim Erstellen', 'error');
+                }
+            } catch (error) {
+                showMessage('createMessage', 'Verbindungsfehler: ' + error.message, 'error');
+            }
+        }
+
+        // Netzwerke laden
+        async function loadNetworks() {
+            try {
+                const response = await fetch(`${API_BASE}/networks`);
+                const data = await response.json();
+                
+                if (data.success && data.data.length > 0) {
+                    const html = data.data.map(network => `
+                        <div class="network-item">
+                            <div class="network-header">
+                                <span class="network-name">${network.name}</span>
+                                <span class="network-type">${network.network_type}</span>
+                            </div>
+                            <div class="network-details">
+                                <strong>Organismus:</strong> ${network.organism || 'N/A'}<br>
+                                <strong>Knoten:</strong> ${network.node_count} | 
+                                <strong>Kanten:</strong> ${network.edge_count}<br>
+                                <strong>Labels:</strong> ${network.node_labels ? network.node_labels.join(', ') : 'N/A'}<br>
+                                ${network.description ? `<strong>Beschreibung:</strong> ${network.description}<br>` : ''}
+                                <strong>Erstellt:</strong> ${new Date(network.created_at).toLocaleString('de-DE')}
+                            </div>
+                            <div class="network-actions">
+                                <button class="btn-small btn-info" onclick="viewNetwork(${network.network_id})">
+                                    Details anzeigen
+                                </button>
+                                <button class="btn-small btn-danger" onclick="deleteNetwork(${network.network_id})">
+                                    Löschen
+                                </button>
+                            </div>
+                        </div>
+                    `).join('');
+                    
+                    document.getElementById('networksList').innerHTML = html;
+                } else {
+                    document.getElementById('networksList').innerHTML = 
+                        '<div class="loading">Keine Netzwerke gefunden. Erstelle dein erstes Netzwerk!</div>';
+                }
+            } catch (error) {
+                document.getElementById('networksList').innerHTML = 
+                    '<div class="error">Fehler beim Laden der Netzwerke: ' + error.message + '</div>';
+            }
+        }
+
+        // Netzwerk-Details anzeigen
+        async function viewNetwork(networkId) {
+            try {
+                const response = await fetch(`${API_BASE}/networks/${networkId}`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    const network = data.data;
+                    const matrixHtml = network.adjacency_matrix.map((row, i) => 
+                        `<div>${row.map((cell, j) => 
+                            `<span style="display:inline-block;width:30px;text-align:center;border:1px solid #ddd;padding:3px;margin:1px;">${cell}</span>`
+                        ).join('')}</div>`
+                    ).join('');
+                    
+                    alert(`Netzwerk: ${network.name}\n\nKnoten: ${network.node_labels.join(', ')}\n\nSignaturen: ${network.signature_array.join(', ')}`);
+                }
+            } catch (error) {
+                alert('Fehler beim Laden der Details: ' + error.message);
+            }
+        }
+
+        // Netzwerk löschen
+        async function deleteNetwork(networkId) {
+            if (!confirm('Möchten Sie dieses Netzwerk wirklich löschen?')) return;
+            
+            try {
+                const response = await fetch(`${API_BASE}/networks/${networkId}`, {
+                    method: 'DELETE'
+                });
+                const data = await response.json();
+                
+                if (data.success) {
+                    loadNetworks();
+                }
+            } catch (error) {
+                alert('Fehler beim Löschen: ' + error.message);
+            }
+        }
+
+        // Subgraph-Suche
+        async function searchSubgraph() {
+            const searchLabels = document.getElementById('searchLabels').value.split(',').map(s => s.trim()).filter(Boolean);
+            const searchMatrix = getMatrixFromInputs('search_cell');
+
+            if (searchLabels.length === 0) {
+                showMessage('searchMessage', 'Bitte Such-Knoten angeben', 'error');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE}/networks/search`, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        node_labels: searchLabels,
+                        adjacency_matrix: searchMatrix
+                    })
+                });
+
+                const data = await response.json();
+                
+                if (data.success) {
+                    const matches = data.data;
+                    
+                    if (matches.length === 0) {
+                        document.getElementById('searchResults').innerHTML = 
+                            '<div class="loading">Keine Matches gefunden.</div>';
+                    } else {
+                        const html = `
+                            <h3 style="margin-top:20px;color:#4caf50;">
+                                ${matches.length} Match(es) gefunden:
+                            </h3>
+                            ${matches.map(match => `
+                                <div class="network-item match-item">
+                                    <div class="network-header">
+                                        <span class="network-name">${match.name}</span>
+                                        <span class="network-type">${match.network_type}</span>
+                                    </div>
+                                    <div class="network-details">
+                                        <strong>Organismus:</strong> ${match.organism}<br>
+                                        <strong>Match-Typ:</strong> ${match.match_type}<br>
+                                        <strong>Knoten:</strong> ${match.node_labels.join(', ')}
+                                    </div>
+                                </div>
+                            `).join('')}
+                        `;
+                        document.getElementById('searchResults').innerHTML = html;
+                    }
+                    
+                    showMessage('searchMessage', 'Suche erfolgreich durchgeführt', 'success');
+                } else {
+                    showMessage('searchMessage', 'Fehler bei der Suche', 'error');
+                }
+            } catch (error) {
+                showMessage('searchMessage', 'Verbindungsfehler: ' + error.message, 'error');
+            }
+        }
+
+        // Hilfsfunktion für Nachrichten
+        function showMessage(elementId, message, type) {
+            const element = document.getElementById(elementId);
+            element.innerHTML = `<div class="${type}">${message}</div>`;
+            setTimeout(() => element.innerHTML = '', 5000);
+        }
+
+        // Beim Laden der Seite Netzwerke laden
+        window.onload = () => {
+            loadNetworks();
+        };
+    </script>
+</body>
+</html>
