@@ -1,0 +1,188 @@
+{
+  "src/backend/crud.py": [
+    {
+      "type": "function",
+      "rank": "A",
+      "name": "search_subgraph",
+      "col_offset": 0,
+      "endline": 165,
+      "lineno": 98,
+      "complexity": 5,
+      "closures": []
+    },
+    {
+      "type": "function",
+      "rank": "A",
+      "name": "compute_signatures",
+      "col_offset": 0,
+      "endline": 26,
+      "lineno": 18,
+      "complexity": 4,
+      "closures": []
+    },
+    {
+      "type": "function",
+      "rank": "A",
+      "name": "compute_signature_hash",
+      "col_offset": 0,
+      "endline": 31,
+      "lineno": 28,
+      "complexity": 1,
+      "closures": []
+    },
+    {
+      "type": "function",
+      "rank": "A",
+      "name": "create_network",
+      "col_offset": 0,
+      "endline": 71,
+      "lineno": 33,
+      "complexity": 1,
+      "closures": []
+    },
+    {
+      "type": "function",
+      "rank": "A",
+      "name": "get_all_networks",
+      "col_offset": 0,
+      "endline": 84,
+      "lineno": 74,
+      "complexity": 1,
+      "closures": []
+    },
+    {
+      "type": "function",
+      "rank": "A",
+      "name": "get_network_by_id",
+      "col_offset": 0,
+      "endline": 96,
+      "lineno": 86,
+      "complexity": 1,
+      "closures": []
+    },
+    {
+      "type": "function",
+      "rank": "A",
+      "name": "delete_network",
+      "col_offset": 0,
+      "endline": 175,
+      "lineno": 167,
+      "complexity": 1,
+      "closures": []
+    }
+  ],
+  "src/backend/database.py": [
+    {
+      "type": "function",
+      "rank": "A",
+      "name": "get_db_connection",
+      "col_offset": 0,
+      "endline": 24,
+      "lineno": 14,
+      "complexity": 2,
+      "closures": []
+    },
+    {
+      "type": "function",
+      "rank": "A",
+      "name": "get_db_cursor",
+      "col_offset": 0,
+      "endline": 28,
+      "lineno": 26,
+      "complexity": 1,
+      "closures": []
+    }
+  ],
+  "src/backend/app.py": [
+    {
+      "type": "function",
+      "rank": "A",
+      "name": "get_network",
+      "col_offset": 0,
+      "endline": 59,
+      "lineno": 49,
+      "complexity": 4,
+      "closures": []
+    },
+    {
+      "type": "function",
+      "rank": "A",
+      "name": "delete_network",
+      "col_offset": 0,
+      "endline": 100,
+      "lineno": 90,
+      "complexity": 4,
+      "closures": []
+    },
+    {
+      "type": "function",
+      "rank": "A",
+      "name": "create_network",
+      "col_offset": 0,
+      "endline": 75,
+      "lineno": 62,
+      "complexity": 3,
+      "closures": []
+    },
+    {
+      "type": "function",
+      "rank": "A",
+      "name": "get_networks",
+      "col_offset": 0,
+      "endline": 46,
+      "lineno": 40,
+      "complexity": 2,
+      "closures": []
+    },
+    {
+      "type": "function",
+      "rank": "A",
+      "name": "search_networks",
+      "col_offset": 0,
+      "endline": 87,
+      "lineno": 78,
+      "complexity": 2,
+      "closures": []
+    },
+    {
+      "type": "function",
+      "rank": "A",
+      "name": "root",
+      "col_offset": 0,
+      "endline": 37,
+      "lineno": 35,
+      "complexity": 1,
+      "closures": []
+    },
+    {
+      "type": "function",
+      "rank": "A",
+      "name": "health_check",
+      "col_offset": 0,
+      "endline": 105,
+      "lineno": 103,
+      "complexity": 1,
+      "closures": []
+    },
+    {
+      "type": "class",
+      "rank": "A",
+      "name": "NetworkCreate",
+      "col_offset": 0,
+      "endline": 27,
+      "lineno": 21,
+      "complexity": 1,
+      "methods": []
+    },
+    {
+      "type": "class",
+      "rank": "A",
+      "name": "NetworkSearch",
+      "col_offset": 0,
+      "endline": 31,
+      "lineno": 29,
+      "complexity": 1,
+      "methods": []
+    }
+  ]
+}

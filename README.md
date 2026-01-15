@@ -523,6 +523,16 @@ cd backend
 pytest tests/
 ```
 
+### Code Quality Analysis
+
+```bash
+pip install radon
+
+radon cc src/backend -a -s -j | jq . > doc/quality/complexity.json
+radon mi src/backend -s -j | jq . > doc/quality/maintainability.json
+radon hal src/backend -j | jq . > doc/quality/halstead.json
+```
+
 ### Code-Style
 
 ```bash
@@ -693,7 +703,7 @@ docker exec -it gen_postgres psql -U dbuser -d gen \
 
 ## Milestones
 
+- Add code quality report (done.)
 - Increase test coverage
-- Add code quality report
 - Fix test warnings
 - Fix UI issues in index.html 
