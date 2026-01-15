@@ -9,7 +9,6 @@
 Nutzt den [Subgraph Algorithmus](https://github.com/hjstephan/subgraph) (O(n³)) zur effizienten Suche nach strukturellen Ähnlichkeiten in metabolischen Pfaden, Protein-Interaktionsnetzwerken und Gen-Regulationsnetzwerken.
 
 
-
 ## 📋 Inhaltsverzeichnis
 
 - [Features](#-features)
@@ -95,22 +94,22 @@ Nutzt den [Subgraph Algorithmus](https://github.com/hjstephan/subgraph) (O(n³))
 
 ```bash
 # 1. Repository klonen
-git clone https://github.com/hjstephan/gen-fullstack.git
-cd gen-fullstack
+git clone https://github.com/hjstephan/gen-db.git
+cd gen-db
 
 # 2. PostgreSQL starten
-docker-compose up -d
+sudo docker-compose up -d
 
 # 3. Python-Umgebung einrichten
 cd backend
-python -m venv venv
+python3 -m venv venv
 source venv/bin/activate
 
-# 4. Dependencies installieren (inkl. Subgraph Algorithmus)
-pip install -r requirements.txt
+# 4. Dependencies installieren
+pip install -r requirements-dev.txt
 
 # 5. Backend starten
-python app.py
+python3 -m backend.app
 
 # 6. Browser öffnen
 open http://localhost:8000
@@ -132,8 +131,8 @@ open http://localhost:8000
 
 #### 1. Repository klonen
 ```bash
-git clone https://github.com/hjstephan/gen-fullstack.git
-cd gen-fullstack
+git clone https://github.com/hjstephan/gen-db.git
+cd gen-db
 ```
 
 #### 2. PostgreSQL-Datenbank starten
@@ -165,8 +164,8 @@ gen=# \q
 cd backend
 
 # Virtual Environment erstellen
-python -m venv venv
-source venv/bin/activate  # Windows: venv\Scripts\activate
+python3 -m venv venv
+source venv/bin/activate
 
 # Dependencies installieren
 pip install -r requirements.txt
@@ -176,7 +175,6 @@ Dies installiert:
 - FastAPI & Uvicorn (Web-Framework)
 - psycopg2-binary (PostgreSQL-Adapter)
 - numpy (Matrix-Operationen)
-- **subgraph** (von https://github.com/hjstephan/subgraph)
 
 #### 5. Backend starten
 ```bash
@@ -671,16 +669,6 @@ docker exec -it gen_postgres psql -U dbuser -d gen -c "SELECT 1"
 # Prüfe Backend-Logs
 docker logs gen_backend  # falls Docker
 # oder im Terminal, wo app.py läuft
-```
-
-### Subgraph-Package nicht gefunden
-```bash
-# Reinstalliere
-pip uninstall subgraph
-pip install git+https://github.com/hjstephan/subgraph.git
-
-# Prüfe Installation
-python -c "from subgraph import SubgraphComparator; print('OK')"
 ```
 
 ### Frontend lädt nicht

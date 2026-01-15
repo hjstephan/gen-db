@@ -1,22 +1,22 @@
 import hashlib
 import numpy as np
 from typing import List, Dict, Optional
-from database import get_db_connection, get_db_cursor
+from backend.database import get_db_connection, get_db_cursor
 
-# Import Subgraph-Algorithmus aus dem hjstephan/subgraph Package
+# Import Subgraph Algorithmus aus dem hjstephan/subgraph Package
 try:
-    from subgraph import SubgraphComparator
+    from subgraph import Subgraph
     SUBGRAPH_AVAILABLE = True
 except ImportError:
     print("WARNING: Subgraph package not available. Install with: pip install git+https://github.com/hjstephan/subgraph.git")
     SUBGRAPH_AVAILABLE = False
 
-# Initialisiere den SubgraphComparator global
+# Initialisiere den Subgraph Algorithmus
 if SUBGRAPH_AVAILABLE:
-    comparator = SubgraphComparator()
+    comparator = Subgraph()
 
 def compute_signatures(matrix: np.ndarray) -> List[int]:
-    """Berechnet Spalten-Signaturen für Adjacency Matrix (wie im Subgraph-Algorithmus)"""
+    """Berechnet Spalten-Signaturen für Adjacency Matrix (wie im Subgraph Algorithmus)"""
     n = matrix.shape[0]
     signatures = []
     for col in range(n):
@@ -136,7 +136,7 @@ def search_subgraph(query_matrix: List[List[int]],
             
             # Vergleiche mit SubgraphComparator
             # compare(A, B) gibt zurück: 'keep_A', 'keep_B', 'keep_both', 'keep_either'
-            result = comparator.compare(query_np, candidate_matrix)
+            result = comparator.compare_graphs(query_np, candidate_matrix)
             
             # Interpretation der Ergebnisse:
             # - 'keep_B': B (candidate) enthält A (query) → Query ist Subgraph von Candidate

@@ -3,4 +3,3 @@ uvicorn[standard]
 psycopg2-binary
 numpy
 python-multipart
-git+https://github.com/hjstephan/subgraph.git

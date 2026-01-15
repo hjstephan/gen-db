@@ -4,7 +4,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 from pydantic import BaseModel
 from typing import List, Optional
-import crud
+from . import crud
 
 app = FastAPI(title="Gen - Biological Network Analysis API")
 
@@ -34,7 +34,7 @@ class NetworkSearch(BaseModel):
 @app.get("/")
 async def root():
     """Serve frontend"""
-    return FileResponse("../frontend/index.html")
+    return FileResponse("src/frontend/index.html")
 
 @app.get("/api/networks")
 async def get_networks():
