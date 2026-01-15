@@ -22,6 +22,7 @@ Nutzt den [Subgraph Algorithmus](https://github.com/hjstephan/subgraph) (O(n³))
 - [Entwicklung](#-entwicklung)
 - [Deployment](#-deployment)
 - [Troubleshooting](#-troubleshooting)
+- [Milestones](#-milestones)
 
 
 
@@ -689,3 +690,10 @@ docker exec -it gen_postgres psql -U dbuser -d gen \
 docker exec -it gen_postgres psql -U dbuser -d gen \
   -c "CREATE INDEX IF NOT EXISTS idx_networks_node_count ON biological_networks(node_count)"
 ```
+
+## Milestones
+
+- Increase test coverage
+- Add code quality report
+- Fix test warnings
+- Fix UI issues in index.html 
