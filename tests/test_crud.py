@@ -218,7 +218,8 @@ class TestSubgraphSearch:
             query_labels=sample_glycolysis['node_labels']
         )
         
-        assert len(matches) == 0
+        assert len(matches) >= 1
+        assert any(m['match_type'] == 'exact' for m in matches)
     
     def test_search_subgraph_finds_superset(self, clean_database, sample_glycolysis, 
                                             sample_partial_glycolysis, monkeypatch):
@@ -234,7 +235,8 @@ class TestSubgraphSearch:
             query_labels=sample_partial_glycolysis['node_labels']
         )
         
-        assert len(matches) == 0
+        assert len(matches) >= 1
+        assert any(m['name'] == 'Glycolysis' for m in matches)
     
     def test_search_subgraph_no_matches(self, clean_database, sample_glycolysis, monkeypatch):
         """Test search with no matches"""

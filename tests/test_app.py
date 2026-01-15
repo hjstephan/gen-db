@@ -115,7 +115,7 @@ class TestSearchEndpoint:
     
     def test_search_networks_valid(self, client, clean_database, sample_glycolysis, monkeypatch):
         """Test POST /api/networks/search with valid data"""
-        from backend import crud
+        import crud
         monkeypatch.setattr(crud, 'get_db_connection', lambda: clean_database)
         
         # Create network first

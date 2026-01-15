@@ -129,23 +129,26 @@ def search_subgraph(query_matrix: List[List[int]],
         
         print(f"🔍 Subgraph-Suche: {len(candidates)} Kandidaten für Query (n={query_node_count}, e={query_edge_count})")
         
-        # Verwende den echten SubgraphComparator!
+        # Verwende Subgraph Algorithmus
         matches = []
         for candidate in candidates:
             candidate_matrix = np.array(candidate['adjacency_matrix'], dtype=int)
             
-            # Vergleiche mit SubgraphComparator
-            # compare(A, B) gibt zurück: 'keep_A', 'keep_B', 'keep_both', 'keep_either'
+            # Vergleiche mit Subgraph Algorithmus
+            # compare_graphs gibt Tuple zurück: (decision, matrix_A, matrix_B)
             result = comparator.compare_graphs(query_np, candidate_matrix)
             
-            # Interpretation der Ergebnisse:
-            # - 'keep_B': B (candidate) enthält A (query) → Query ist Subgraph von Candidate
-            # - 'keep_either': A == B → Identisch
-            # - 'keep_A': A (query) enthält B → Candidate ist Subgraph von Query (nicht relevant)
-            # - 'keep_both': Keine Subgraph-Beziehung
+            # Extrahiere Decision aus Tuple
+            decision = result[0] if isinstance(result, tuple) else result
             
-            if result in ['keep_B', 'keep_either']:
-                match_type = 'exact' if result == 'keep_either' else 'subgraph'
+            # Tuple (Entscheidung, behaltene Matrix)
+            # - ("keep_B", B) wenn B die Matrix A enthält (G' hat mehr Info)
+            # - ("keep_A", A) wenn A die Matrix B enthält (G hat mehr Info)
+            # - ("keep_both", None) wenn keiner den anderen enthält
+            # - ("equal", A) wenn beide identisch sind
+            
+            if decision in ['keep_B', 'keep_A', 'equal_keep_A', 'equal_keep_B']:
+                match_type = 'exact' if decision in ['equal_keep_A', 'equal_keep_B'] else 'subgraph'
                 matches.append({
                     'network_id': candidate['network_id'],
                     'name': candidate['name'],
@@ -155,11 +158,11 @@ def search_subgraph(query_matrix: List[List[int]],
                     'node_count': candidate['node_count'],
                     'edge_count': candidate['edge_count'],
                     'match_type': match_type,
-                    'subgraph_result': result
+                    'subgraph_result': decision
                 })
-                print(f"  ✅ Match: {candidate['name']} ({result})")
+                print(f"  ✅ Match: {candidate['name']} ({decision})")
             else:
-                print(f"  ❌ No match: {candidate['name']} ({result})")
+                print(f"  ❌ No match: {candidate['name']} ({decision})")
         
         print(f"✨ Gefunden: {len(matches)} Matches")
         return matches

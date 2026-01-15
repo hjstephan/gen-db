@@ -25,7 +25,7 @@ class TestCompleteWorkflow:
                                           sample_glycolysis, sample_partial_glycolysis, 
                                           monkeypatch):
         """Test complete workflow: create networks, search, delete"""
-        from backend import crud
+        import crud
         monkeypatch.setattr(crud, 'get_db_connection', lambda: clean_database)
         
         # 1. Create full glycolysis
@@ -49,23 +49,22 @@ class TestCompleteWorkflow:
         }
         response4 = client.post("/api/networks/search", json=search_data)
         matches = response4.json()["data"]
-        assert len(matches) == 0
-        # assert len(matches) >= 1
+        assert len(matches) >= 1
         
-        # # 5. Delete networks
-        # response5 = client.delete(f"/api/networks/{full_id}")
-        # assert response5.status_code == 200
+        # 5. Delete networks
+        response5 = client.delete(f"/api/networks/{full_id}")
+        assert response5.status_code == 200
         
-        # response6 = client.delete(f"/api/networks/{partial_id}")
-        # assert response6.status_code == 200
+        response6 = client.delete(f"/api/networks/{partial_id}")
+        assert response6.status_code == 200
         
-        # # 6. Verify deletion
-        # response7 = client.get("/api/networks")
-        # assert len(response7.json()["data"]) == 0
+        # 6. Verify deletion
+        response7 = client.get("/api/networks")
+        assert len(response7.json()["data"]) == 0
     
     def test_concurrent_network_creation(self, client, clean_database, monkeypatch):
         """Test creating multiple networks concurrently"""
-        from backend import crud
+        import crud
         monkeypatch.setattr(crud, 'get_db_connection', lambda: clean_database)
         
         networks = [
