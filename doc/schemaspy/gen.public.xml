@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?><database name="gen" schema="public" type="PostgreSQL - 15.15 (Debian 15.15-1.pgdg13+1)">
+   <sequences>
+      <sequence increment="1" name="biological_networks_network_id_seq" startValue="1"/>
+   </sequences>
+   <tables>
+      <table name="biological_networks" remarks="" schema="public" type="TABLE">
+         <column autoUpdated="true" defaultValue="nextval('biological_networks_network_id_seq'::regclass)" digits="0" id="0" name="network_id" nullable="false" remarks="" size="10" type="serial" typeCode="4">
+            <child column="network_id" foreignKey="network_matrices_network_id_fkey" implied="false" onDeleteCascade="true" schema="public" table="network_matrices"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="name" nullable="false" remarks="" size="255" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="network_type" nullable="true" remarks="" size="50" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="3" name="organism" nullable="true" remarks="" size="100" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="4" name="description" nullable="true" remarks="" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="5" name="node_count" nullable="false" remarks="" size="10" type="int4" typeCode="4"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="6" name="edge_count" nullable="false" remarks="" size="10" type="int4" typeCode="4"/>
+         <column autoUpdated="false" defaultValue="now()" digits="6" id="7" name="created_at" nullable="true" remarks="" size="29" type="timestamp" typeCode="93"/>
+         <primaryKey column="network_id" sequenceNumberInPK="1"/>
+         <index name="biological_networks_pkey" unique="true">
+            <column ascending="true" name="network_id"/>
+         </index>
+         <index name="idx_networks_node_count" unique="false">
+            <column ascending="true" name="node_count"/>
+         </index>
+         <index name="idx_networks_organism" unique="false">
+            <column ascending="true" name="organism"/>
+         </index>
+         <index name="idx_networks_type" unique="false">
+            <column ascending="true" name="network_type"/>
+         </index>
+      </table>
+      <table name="network_matrices" remarks="" schema="public" type="TABLE">
+         <column autoUpdated="false" defaultValue="null" digits="0" id="0" name="network_id" nullable="false" remarks="" size="10" type="int4" typeCode="4">
+            <parent column="network_id" foreignKey="network_matrices_network_id_fkey" implied="false" onDeleteCascade="true" schema="public" table="biological_networks"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="node_labels" nullable="false" remarks="" size="2147483647" type="_text" typeCode="2003"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="adjacency_matrix" nullable="false" remarks="" size="10" type="_int4" typeCode="2003"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="3" name="signature_array" nullable="false" remarks="" size="19" type="_int8" typeCode="2003"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="4" name="signature_hash" nullable="true" remarks="" size="64" type="varchar" typeCode="12"/>
+         <primaryKey column="network_id" sequenceNumberInPK="1"/>
+         <index name="network_matrices_pkey" unique="true">
+            <column ascending="true" name="network_id"/>
+         </index>
+         <index name="idx_matrices_hash" unique="false">
+            <column ascending="true" name="signature_hash"/>
+         </index>
+      </table>
+   </tables>
+</database>
