@@ -706,5 +706,5 @@ docker exec -it gen_postgres psql -U dbuser -d gen \
 - Add code quality report (done.)
 - Fix test errors (done.)
 - Fix UI issues in index.html (done.)
-- Increase test coverage
+- Increase test coverage (done.)
 - Fix test warnings
