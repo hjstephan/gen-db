@@ -71,16 +71,40 @@ def create_network(name: str, network_type: str, organism: str,
             'signature_hash': sig_hash
         }
 
-def get_all_networks() -> List[Dict]:
-    """Holt alle Netzwerke aus der DB"""
+def get_all_networks(limit: int = 33, random_sample: bool = True) -> List[Dict]:
+    """
+    Holt Netzwerke aus der DB
+    
+    Args:
+        limit: Maximale Anzahl zurückgegebener Netzwerke (default: 33)
+        random_sample: Wenn True, werden zufällige Netzwerke geladen (default: True)
+    
+    Returns:
+        Liste von Netzwerk-Dictionaries
+    """
     with get_db_connection() as conn:
         cursor = get_db_cursor(conn)
-        cursor.execute("""
-            SELECT bn.*, nm.node_labels, nm.signature_hash
-            FROM biological_networks bn
-            LEFT JOIN network_matrices nm ON bn.network_id = nm.network_id
-            ORDER BY bn.created_at DESC
-        """)
+        
+        if random_sample:
+            # Lade 33 zufällige Netzwerke mit TABLESAMPLE
+            # TABLESAMPLE SYSTEM ist sehr schnell, auch bei Millionen Zeilen
+            cursor.execute(f"""
+                SELECT bn.*, nm.node_labels, nm.signature_hash
+                FROM biological_networks bn
+                LEFT JOIN network_matrices nm ON bn.network_id = nm.network_id
+                ORDER BY RANDOM()
+                LIMIT %s
+            """, (limit,))
+        else:
+            # Lade neueste Netzwerke
+            cursor.execute(f"""
+                SELECT bn.*, nm.node_labels, nm.signature_hash
+                FROM biological_networks bn
+                LEFT JOIN network_matrices nm ON bn.network_id = nm.network_id
+                ORDER BY bn.created_at DESC
+                LIMIT %s
+            """, (limit,))
+        
         return cursor.fetchall()
 
 def get_network_by_id(network_id: int) -> Optional[Dict]:

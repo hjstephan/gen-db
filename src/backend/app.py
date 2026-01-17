@@ -37,11 +37,17 @@ async def root():
     return FileResponse("src/frontend/index.html")
 
 @app.get("/api/networks")
-async def get_networks():
-    """Hole alle Netzwerke"""
+async def get_networks(limit: int = 33, random: bool = True):
+    """
+    Hole Netzwerke aus der Datenbank
+    
+    Args:
+        limit: Maximale Anzahl (default: 33)
+        random: Zufällige Auswahl (default: True)
+    """
     try:
-        networks = crud.get_all_networks()
-        return {"success": True, "data": networks}
+        networks = crud.get_all_networks(limit=limit, random_sample=random)
+        return {"success": True, "data": networks, "count": len(networks)}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 

@@ -813,14 +813,25 @@
             }
         }
 
-        // Netzwerke laden
+        // Netzwerke laden (nur 33 zufällige)
         async function loadNetworks() {
             try {
-                const response = await fetch(`${API_BASE}/networks`);
+                // Lade nur 33 zufällige Netzwerke
+                const response = await fetch(`${API_BASE}/networks?limit=33&random=true`);
                 const data = await response.json();
 
                 if (data.success && data.data.length > 0) {
-                    const html = data.data.map(network => `
+                    // Zeige Info über Anzahl geladener Netzwerke
+                    const infoHtml = `
+                        <div style="background: #e8f5e9; padding: 10px; border-radius: 3px; margin-bottom: 15px; font-size: 0.9em;">
+                            📊 <strong>${data.count}</strong> zufällige Netzwerke geladen. 
+                            <a href="#" onclick="loadNetworks(); return false;" style="color: #27ae60; text-decoration: underline;">
+                                Neu laden
+                            </a>
+                        </div>
+                    `;
+
+                    const networksHtml = data.data.map(network => `
                         <div class="network-item">
                             <div class="network-header">
                                 <span class="network-name">${network.name}</span>
@@ -845,9 +856,9 @@
                         </div>
                     `).join('');
 
-                    document.getElementById('networksList').innerHTML = html;
+                    document.getElementById('networksList').innerHTML = infoHtml + networksHtml;
 
-                    // Update Search Template Dropdown
+                    // Update Search Template Dropdown (auch nur 33)
                     updateSearchTemplateDropdown(data.data);
                 } else {
                     document.getElementById('networksList').innerHTML =
