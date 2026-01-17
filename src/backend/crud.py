@@ -114,20 +114,17 @@ def search_subgraph(query_matrix: List[List[int]],
         query_node_count = query_np.shape[0]
         query_edge_count = int(np.sum(query_np))
         
-        # Pre-filtering: Nur Netzwerke >= Query-Größe
         cursor.execute("""
             SELECT bn.network_id, bn.name, bn.network_type, bn.organism,
-                   bn.node_count, bn.edge_count,
-                   nm.node_labels, nm.adjacency_matrix
+                bn.node_count, bn.edge_count,
+                nm.node_labels, nm.adjacency_matrix
             FROM biological_networks bn
             JOIN network_matrices nm ON bn.network_id = nm.network_id
-            WHERE bn.node_count >= %s AND bn.edge_count >= %s
-            ORDER BY bn.node_count ASC
-        """, (query_node_count, query_edge_count))
+            ORDER BY bn.node_count ASC""")
         
         candidates = cursor.fetchall()
         
-        print(f"🔍 Subgraph-Suche: {len(candidates)} Kandidaten für Query (n={query_node_count}, e={query_edge_count})")
+        print(f"Subgraph-Suche: {len(candidates)} Kandidaten für Query (n={query_node_count}, e={query_edge_count})")
         
         # Verwende Subgraph Algorithmus
         matches = []
@@ -160,11 +157,11 @@ def search_subgraph(query_matrix: List[List[int]],
                     'match_type': match_type,
                     'subgraph_result': decision
                 })
-                print(f"  ✅ Match: {candidate['name']} ({decision})")
-            else:
-                print(f"  ❌ No match: {candidate['name']} ({decision})")
+            #     print(f"  ✅ Match: {candidate['name']} ({decision})")
+            # else:
+            #     print(f"  ❌ No match: {candidate['name']} ({decision})")
         
-        print(f"✨ Gefunden: {len(matches)} Matches")
+        print(f"Gefunden: {len(matches)} Matches")
         return matches
 
 def delete_network(network_id: int) -> bool:

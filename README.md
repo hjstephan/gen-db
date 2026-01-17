@@ -1,4 +1,4 @@
-# Gen Full-Stack - Biological Network Database
+# Gen-DB - Biological Network Database
 
 [![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.104-green.svg)](https://fastapi.tiangolo.com/)
@@ -705,6 +705,6 @@ docker exec -it gen_postgres psql -U dbuser -d gen \
 
 - Add code quality report (done.)
 - Fix test errors (done.)
-- Fix UI issues in index.html 
+- Fix UI issues in index.html (done.)
 - Increase test coverage
 - Fix test warnings
