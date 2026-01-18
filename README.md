@@ -116,9 +116,19 @@ python3 -m backend.app
 open http://localhost:8000
 ```
 
-**Das war's!** Die Anwendung läuft jetzt mit Beispieldaten (Glycolysis, DNA_Damage_Response).
-
-
+Ein Auszug aus dem Log bei einer Suche eines Netzwerks mit 13 Knoten und 56 Kanten
+<pre>
+2026-01-18 08:50:08 - INFO - Started server process [9539]
+2026-01-18 08:50:08 - INFO - Waiting for application startup.
+2026-01-18 08:50:08 - INFO - Application startup complete.
+2026-01-18 08:50:08 - INFO - Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+2026-01-18 08:50:12 - INFO - 127.0.0.1:49696 - "GET / HTTP/1.1" 200
+2026-01-18 08:50:14 - INFO - 127.0.0.1:49696 - "GET /api/networks?limit=33&random=true HTTP/1.1" 200
+2026-01-18 08:50:39 - INFO - 127.0.0.1:49712 - "GET /api/networks/719549 HTTP/1.1" 200
+2026-01-18 08:51:15 - INFO - Subgraph-Suche: 443807 Kandidaten für Query (n=13, e=56)
+2026-01-18 08:57:41 - INFO - Gefunden: 27 Matches
+2026-01-18 08:57:42 - INFO - 127.0.0.1:34950 - "POST /api/networks/search HTTP/1.1" 200
+</pre>
 
 ## 📦 Installation
 

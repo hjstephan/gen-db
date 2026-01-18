@@ -1,7 +1,16 @@
 import hashlib
 import numpy as np
+import logging
 from typing import List, Dict, Optional
 from backend.database import get_db_connection, get_db_cursor
+from datetime import datetime
+
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s',
+    datefmt='%Y-%m-%d %H:%M:%S'
+)
+logger = logging.getLogger(__name__)
 
 # Import Subgraph Algorithmus aus dem hjstephan/subgraph Package
 try:
@@ -149,7 +158,7 @@ def search_subgraph(query_matrix: List[List[int]],
         
         candidates = cursor.fetchall()
         
-        print(f"Subgraph-Suche: {len(candidates)} Kandidaten für Query (n={query_node_count}, e={query_edge_count})")
+        logger.info(f"Subgraph-Suche: {len(candidates)} Kandidaten für Query (n={query_node_count}, e={query_edge_count})")
         
         # Verwende Subgraph Algorithmus
         matches = []
@@ -186,7 +195,7 @@ def search_subgraph(query_matrix: List[List[int]],
             # else:
             #     print(f"  ❌ No match: {candidate['name']} ({decision})")
         
-        print(f"Gefunden: {len(matches)} Matches")
+        logger.info(f"Gefunden: {len(matches)} Matches")
         return matches
 
 def delete_network(network_id: int) -> bool:

@@ -690,13 +690,14 @@
             // Erste Zeile: Spalten-Header
             html += '<div></div>'; // Ecke oben links leer
             for (let j = 0; j < n; j++) {
-                html += `<div style="font-size: 0.75em; text-align: center; font-weight: 600; color: #3498db;">${labels[j]}</div>`;
+                html += `<div style="font-size: 0.75em; text-align: center; font-weight: 600; color: #3498db; width: 38px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="${labels[j]}">${labels[j].substring(0, 3)}</div>`;
             }
 
             // Matrix-Zeilen mit Zeilen-Labels
             for (let i = 0; i < n; i++) {
                 // Zeilen-Label
-                html += `<div style="font-size: 0.75em; text-align: right; padding-right: 8px; font-weight: 600; color: #3498db;">${labels[i]}</div>`;
+                html += `<div style="font-size: 0.75em; text-align: right; padding-right: 8px; font-weight: 600; color: #3498db; width: 60px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="${labels[i]}">${labels[i]}</div>`;
+
 
                 // Matrix-Zellen
                 for (let j = 0; j < n; j++) {
@@ -730,13 +731,13 @@
             // Erste Zeile: Spalten-Header
             html += '<div></div>'; // Ecke oben links leer
             for (let j = 0; j < n; j++) {
-                html += `<div style="font-size: 0.75em; text-align: center; font-weight: 600; color: #3498db;">${labels[j]}</div>`;
+                html += `<div style="font-size: 0.75em; text-align: center; font-weight: 600; color: #3498db; width: 38px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="${labels[j]}">${labels[j].substring(0, 3)}</div>`;
             }
 
             // Matrix-Zeilen mit Zeilen-Labels
             for (let i = 0; i < n; i++) {
                 // Zeilen-Label
-                html += `<div style="font-size: 0.75em; text-align: right; padding-right: 8px; font-weight: 600; color: #3498db;">${labels[i]}</div>`;
+                html += `<div style="font-size: 0.75em; text-align: right; padding-right: 8px; font-weight: 600; color: #3498db; width: 60px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="${labels[i]}">${labels[i]}</div>`;
 
                 // Matrix-Zellen
                 for (let j = 0; j < n; j++) {

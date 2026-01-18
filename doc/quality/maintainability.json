@@ -1,6 +1,6 @@
 {
   "src/backend/crud.py": {
-    "mi": 63.47283619135119,
+    "mi": 66.21396919454935,
     "rank": "A"
   },
   "src/backend/__init__.py": {
@@ -12,7 +12,7 @@
     "rank": "A"
   },
   "src/backend/app.py": {
-    "mi": 56.01277619608891,
+    "mi": 61.07586201977745,
     "rank": "A"
   }
 }

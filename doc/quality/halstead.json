@@ -86,18 +86,18 @@
         "bugs": 0.0
       },
       "search_subgraph": {
-        "h1": 3,
+        "h1": 2,
         "h2": 4,
         "N1": 3,
         "N2": 5,
-        "vocabulary": 7,
+        "vocabulary": 6,
         "length": 8,
-        "calculated_length": 12.75488750216347,
-        "volume": 22.458839376460833,
-        "difficulty": 1.875,
-        "effort": 42.11032383086406,
-        "time": 2.3394624350480036,
-        "bugs": 0.007486279792153611
+        "calculated_length": 10.0,
+        "volume": 20.67970000576925,
+        "difficulty": 1.25,
+        "effort": 25.84962500721156,
+        "time": 1.43609027817842,
+        "bugs": 0.006893233335256416
       },
       "delete_network": {
         "h1": 1,
