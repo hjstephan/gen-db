@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name="gen-db",
-    version="2.0.1",
+    version="2.1.0",
     author="Stephan Epp",
     author_email="hjstephan@gmail.com",
     description="Biological Network Database and Analysis Tools",

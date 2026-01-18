@@ -144,7 +144,8 @@ def search_subgraph(query_matrix: List[List[int]],
                 nm.node_labels, nm.adjacency_matrix
             FROM biological_networks bn
             JOIN network_matrices nm ON bn.network_id = nm.network_id
-            ORDER BY bn.node_count ASC""")
+            WHERE bn.node_count >= %s
+            ORDER BY bn.node_count ASC""", (query_node_count,))
         
         candidates = cursor.fetchall()
         
