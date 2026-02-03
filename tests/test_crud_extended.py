@@ -4,7 +4,7 @@ Additional coverage for edge cases and error scenarios
 """
 import pytest
 import numpy as np
-from backend.crud import (
+from src.backend.crud import (
     compute_signatures,
     compute_signature_hash,
     create_network,
@@ -56,7 +56,7 @@ class TestCreateNetworkExtended:
     
     def test_create_network_large(self, clean_database, monkeypatch):
         """Test creating large network"""
-        monkeypatch.setattr('crud.get_db_connection', lambda: clean_database)
+        monkeypatch.setattr('src.backend.crud.get_db_connection', lambda: clean_database)
         
         n = 20
         data = {
@@ -74,7 +74,7 @@ class TestCreateNetworkExtended:
     
     def test_create_network_special_characters(self, clean_database, monkeypatch):
         """Test creating network with special characters in labels"""
-        monkeypatch.setattr('crud.get_db_connection', lambda: clean_database)
+        monkeypatch.setattr('src.backend.crud.get_db_connection', lambda: clean_database)
         
         data = {
             'name': 'Special_Chars',
@@ -98,7 +98,7 @@ class TestSearchSubgraphExtended:
     
     def test_search_handles_disconnected_graph(self, clean_database, monkeypatch):
         """Test search with disconnected graph"""
-        monkeypatch.setattr('crud.get_db_connection', lambda: clean_database)
+        monkeypatch.setattr('src.backend.crud.get_db_connection', lambda: clean_database)
         
         # Create disconnected network (two separate components)
         data = {
@@ -126,7 +126,7 @@ class TestSearchSubgraphExtended:
     
     def test_search_with_cycle(self, clean_database, monkeypatch):
         """Test search with cyclic graph"""
-        monkeypatch.setattr('crud.get_db_connection', lambda: clean_database)
+        monkeypatch.setattr('src.backend.crud.get_db_connection', lambda: clean_database)
         
         # Create network with cycle
         data = {
@@ -153,7 +153,7 @@ class TestSearchSubgraphExtended:
     
     def test_search_performance_with_many_candidates(self, clean_database, monkeypatch):
         """Test search performance with multiple candidates"""
-        monkeypatch.setattr('crud.get_db_connection', lambda: clean_database)
+        monkeypatch.setattr('src.backend.crud.get_db_connection', lambda: clean_database)
         
         # Create multiple networks
         for i in range(10):

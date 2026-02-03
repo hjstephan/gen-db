@@ -6,10 +6,8 @@ import pytest
 from fastapi.testclient import TestClient
 import sys
 import os
-
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src', 'backend'))
-
-from backend.app import app
+import src
+from src.backend.app import app
 
 @pytest.fixture
 def client():
@@ -34,8 +32,8 @@ class TestNetworkEndpoints:
     
     def test_get_networks_empty(self, client, clean_database, monkeypatch):
         """Test GET /api/networks with empty database"""
-        from backend import crud
-        monkeypatch.setattr(crud, 'get_db_connection', lambda: clean_database)
+        from src.backend import crud
+        monkeypatch.setattr(src.    backend.crud, 'get_db_connection', lambda: clean_database)
         
         response = client.get("/api/networks")
         
@@ -46,8 +44,8 @@ class TestNetworkEndpoints:
     
     def test_create_network_valid(self, client, clean_database, sample_network_data, monkeypatch):
         """Test POST /api/networks with valid data"""
-        from backend import crud
-        monkeypatch.setattr(crud, 'get_db_connection', lambda: clean_database)
+        from src.backend import crud
+        monkeypatch.setattr(src.backend.crud, 'get_db_connection', lambda: clean_database)
         
         response = client.post("/api/networks", json=sample_network_data)
         
@@ -68,8 +66,8 @@ class TestNetworkEndpoints:
     
     def test_get_network_by_id_exists(self, client, clean_database, sample_network_data, monkeypatch):
         """Test GET /api/networks/{id} for existing network"""
-        from backend import crud
-        monkeypatch.setattr(crud, 'get_db_connection', lambda: clean_database)
+        from src.backend import crud
+        monkeypatch.setattr(src.backend.crud, 'get_db_connection', lambda: clean_database)
         
         # Create network first
         create_response = client.post("/api/networks", json=sample_network_data)
@@ -90,8 +88,8 @@ class TestNetworkEndpoints:
     
     def test_delete_network_success(self, client, clean_database, sample_network_data, monkeypatch):
         """Test DELETE /api/networks/{id}"""
-        from backend import crud
-        monkeypatch.setattr(crud, 'get_db_connection', lambda: clean_database)
+        from src.backend import crud
+        monkeypatch.setattr(src.backend.crud, 'get_db_connection', lambda: clean_database)
         
         # Create network
         create_response = client.post("/api/networks", json=sample_network_data)
@@ -115,8 +113,8 @@ class TestSearchEndpoint:
     
     def test_search_networks_valid(self, client, clean_database, sample_glycolysis, monkeypatch):
         """Test POST /api/networks/search with valid data"""
-        import crud
-        monkeypatch.setattr(crud, 'get_db_connection', lambda: clean_database)
+        import src.backend.crud
+        monkeypatch.setattr(src.backend.crud, 'get_db_connection', lambda: clean_database)
         
         # Create network first
         client.post("/api/networks", json=sample_glycolysis)

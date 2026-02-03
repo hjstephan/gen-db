@@ -3,7 +3,7 @@ Tests for error handling and edge cases
 """
 import pytest
 from fastapi.testclient import TestClient
-from backend.app import app
+from src.backend.app import app
 
 @pytest.fixture
 def client():
@@ -34,7 +34,7 @@ class TestErrorHandling:
     
     def test_negative_network_id(self, client, clean_database, monkeypatch):
         """Test negative network ID"""
-        from backend import crud
+        from src.backend import crud
         monkeypatch.setattr(crud, 'get_db_connection', lambda: clean_database)
         
         response = client.get("/api/networks/-1")

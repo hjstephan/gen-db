@@ -3,7 +3,7 @@ Tests for database.py module
 Coverage: Connection management, error handling, context manager
 """
 import pytest
-from backend.database import get_db_connection, get_db_cursor, DATABASE_CONFIG
+from src.backend.database import get_db_connection, get_db_cursor, DATABASE_CONFIG
 
 @pytest.mark.unit
 class TestDatabaseConnection:

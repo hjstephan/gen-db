@@ -7,9 +7,7 @@ from fastapi.testclient import TestClient
 import sys
 import os
 
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src', 'backend'))
-
-from backend.app import app
+from src.backend.app import app
 
 @pytest.fixture
 def client():
@@ -25,8 +23,8 @@ class TestCompleteWorkflow:
                                           sample_glycolysis, sample_partial_glycolysis, 
                                           monkeypatch):
         """Test complete workflow: create networks, search, delete"""
-        import crud
-        monkeypatch.setattr(crud, 'get_db_connection', lambda: clean_database)
+        import src.backend.crud
+        monkeypatch.setattr(src.backend.crud, 'get_db_connection', lambda: clean_database)
         
         # 1. Create full glycolysis
         response1 = client.post("/api/networks", json=sample_glycolysis)
@@ -64,8 +62,8 @@ class TestCompleteWorkflow:
     
     def test_concurrent_network_creation(self, client, clean_database, monkeypatch):
         """Test creating multiple networks concurrently"""
-        import crud
-        monkeypatch.setattr(crud, 'get_db_connection', lambda: clean_database)
+        import src.backend.crud
+        monkeypatch.setattr(src.backend.crud, 'get_db_connection', lambda: clean_database)
         
         networks = [
             {

@@ -107,10 +107,10 @@ python3 -m venv venv
 source venv/bin/activate
 
 # 4. Dependencies installieren
-pip install -r requirements-dev.txt
+pip install -r requirements.txt
 
 # 5. Backend starten
-python3 -m backend.app
+python3 -m src.backend.app
 
 # 6. Browser öffnen
 open http://localhost:8000
@@ -186,27 +186,6 @@ Dies installiert:
 - FastAPI & Uvicorn (Web-Framework)
 - psycopg2-binary (PostgreSQL-Adapter)
 - numpy (Matrix-Operationen)
-
-#### 5. Backend starten
-```bash
-python app.py
-```
-
-Erwartete Ausgabe:
-```
-INFO:     Started server process [12345]
-INFO:     Waiting for application startup.
-INFO:     Application startup complete.
-INFO:     Uvicorn running on http://0.0.0.0:8000
-```
-
-#### 6. Frontend öffnen
-Öffne deinen Browser und navigiere zu:
-```
-http://localhost:8000
-```
-
-
 
 ## 📚 API-Dokumentation
 

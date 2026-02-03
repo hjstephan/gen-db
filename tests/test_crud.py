@@ -4,7 +4,7 @@ Coverage: All CRUD operations, signature computation, subgraph search
 """
 import pytest
 import numpy as np
-from backend.crud import (
+from src.backend.crud import (
     compute_signatures,
     compute_signature_hash,
     create_network,
@@ -70,7 +70,7 @@ class TestCreateNetwork:
     
     def test_create_network_success(self, clean_database, sample_network_data, monkeypatch):
         """Test successful network creation"""
-        monkeypatch.setattr('crud.get_db_connection', lambda: clean_database)
+        monkeypatch.setattr('src.backend.crud.get_db_connection', lambda: clean_database)
         
         result = create_network(**sample_network_data)
         
@@ -82,7 +82,7 @@ class TestCreateNetwork:
     
     def test_create_network_with_empty_matrix(self, clean_database, monkeypatch):
         """Test creating network with no edges"""
-        monkeypatch.setattr('crud.get_db_connection', lambda: clean_database)
+        monkeypatch.setattr('src.backend.crud.get_db_connection', lambda: clean_database)
         
         data = {
             'name': 'Empty_Network',
@@ -98,7 +98,7 @@ class TestCreateNetwork:
     
     def test_create_network_computes_signatures(self, clean_database, sample_network_data, monkeypatch):
         """Test that signatures are computed and stored"""
-        monkeypatch.setattr('crud.get_db_connection', lambda: clean_database)
+        monkeypatch.setattr('src.backend.crud.get_db_connection', lambda: clean_database)
         
         result = create_network(**sample_network_data)
         network_id = result['network_id']
@@ -118,7 +118,7 @@ class TestGetNetworks:
     
     def test_get_all_networks_empty(self, clean_database, monkeypatch):
         """Test getting networks from empty database"""
-        monkeypatch.setattr('crud.get_db_connection', lambda: clean_database)
+        monkeypatch.setattr('src.backend.crud.get_db_connection', lambda: clean_database)
         
         networks = get_all_networks()
         assert isinstance(networks, list)
@@ -126,7 +126,7 @@ class TestGetNetworks:
     
     def test_get_all_networks_multiple(self, clean_database, sample_network_data, monkeypatch):
         """Test getting multiple networks"""
-        monkeypatch.setattr('crud.get_db_connection', lambda: clean_database)
+        monkeypatch.setattr('src.backend.crud.get_db_connection', lambda: clean_database)
         
         # Create two networks
         create_network(**sample_network_data)
@@ -140,7 +140,7 @@ class TestGetNetworks:
     
     def test_get_network_by_id_exists(self, clean_database, sample_network_data, monkeypatch):
         """Test getting existing network by ID"""
-        monkeypatch.setattr('crud.get_db_connection', lambda: clean_database)
+        monkeypatch.setattr('src.backend.crud.get_db_connection', lambda: clean_database)
         
         result = create_network(**sample_network_data)
         network_id = result['network_id']
@@ -155,7 +155,7 @@ class TestGetNetworks:
     
     def test_get_network_by_id_not_exists(self, clean_database, monkeypatch):
         """Test getting non-existent network returns None"""
-        monkeypatch.setattr('crud.get_db_connection', lambda: clean_database)
+        monkeypatch.setattr('src.backend.crud.get_db_connection', lambda: clean_database)
         
         network = get_network_by_id(99999)
         assert network is None
@@ -166,7 +166,7 @@ class TestDeleteNetwork:
     
     def test_delete_network_success(self, clean_database, sample_network_data, monkeypatch):
         """Test successful network deletion"""
-        monkeypatch.setattr('crud.get_db_connection', lambda: clean_database)
+        monkeypatch.setattr('src.backend.crud.get_db_connection', lambda: clean_database)
         
         result = create_network(**sample_network_data)
         network_id = result['network_id']
@@ -180,14 +180,14 @@ class TestDeleteNetwork:
     
     def test_delete_network_not_exists(self, clean_database, monkeypatch):
         """Test deleting non-existent network returns False"""
-        monkeypatch.setattr('crud.get_db_connection', lambda: clean_database)
+        monkeypatch.setattr('src.backend.crud.get_db_connection', lambda: clean_database)
         
         deleted = delete_network(99999)
         assert deleted is False
     
     def test_delete_network_cascades_matrix(self, clean_database, sample_network_data, monkeypatch):
         """Test deletion cascades to network_matrices"""
-        monkeypatch.setattr('crud.get_db_connection', lambda: clean_database)
+        monkeypatch.setattr('src.backend.crud.get_db_connection', lambda: clean_database)
         
         result = create_network(**sample_network_data)
         network_id = result['network_id']
@@ -207,7 +207,7 @@ class TestSubgraphSearch:
     
     def test_search_subgraph_exact_match(self, clean_database, sample_glycolysis, monkeypatch):
         """Test finding exact match"""
-        monkeypatch.setattr('crud.get_db_connection', lambda: clean_database)
+        monkeypatch.setattr('src.backend.crud.get_db_connection', lambda: clean_database)
         
         # Create network
         create_network(**sample_glycolysis)
@@ -224,7 +224,7 @@ class TestSubgraphSearch:
     def test_search_subgraph_finds_superset(self, clean_database, sample_glycolysis, 
                                             sample_partial_glycolysis, monkeypatch):
         """Test finding superset (full glycolysis contains partial)"""
-        monkeypatch.setattr('crud.get_db_connection', lambda: clean_database)
+        monkeypatch.setattr('src.backend.crud.get_db_connection', lambda: clean_database)
         
         # Create full glycolysis
         create_network(**sample_glycolysis)
@@ -240,7 +240,7 @@ class TestSubgraphSearch:
     
     def test_search_subgraph_no_matches(self, clean_database, sample_glycolysis, monkeypatch):
         """Test search with no matches"""
-        monkeypatch.setattr('crud.get_db_connection', lambda: clean_database)
+        monkeypatch.setattr('src.backend.crud.get_db_connection', lambda: clean_database)
         
         # Create glycolysis
         create_network(**sample_glycolysis)
@@ -259,7 +259,7 @@ class TestSubgraphSearch:
     
     def test_search_subgraph_prefiltering(self, clean_database, sample_network_data, monkeypatch):
         """Test pre-filtering by node/edge count"""
-        monkeypatch.setattr('crud.get_db_connection', lambda: clean_database)
+        monkeypatch.setattr('src.backend.crud.get_db_connection', lambda: clean_database)
         
         # Create small network (3 nodes, 2 edges)
         create_network(**sample_network_data)

@@ -2,7 +2,7 @@ import hashlib
 import numpy as np
 import logging
 from typing import List, Dict, Optional
-from backend.database import get_db_connection, get_db_cursor
+from .database import get_db_connection, get_db_cursor
 from datetime import datetime
 
 logging.basicConfig(
@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
 
 # Import Subgraph Algorithmus aus dem hjstephan/subgraph Package
 try:
-    from subgraph import Subgraph
+    from src.subgraph import Subgraph
     SUBGRAPH_AVAILABLE = True
 except ImportError:
     print("WARNING: Subgraph package not available. Install with: pip install git+https://github.com/hjstephan/subgraph.git")

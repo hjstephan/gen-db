@@ -1,9 +1,0 @@
-# Test dependencies
-pytest
-pytest-cov
-pytest-asyncio
-httpx
-faker
-
-# Backend requirements
--r src/backend/requirements.txt

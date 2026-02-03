@@ -10,11 +10,8 @@ import sys
 import os
 from typing import Generator
 
-# Add src to path
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src', 'backend'))
-
-from backend import database
-from backend import crud
+from src.backend import database
+from src.backend import crud
 
 # Override database config for tests
 TEST_DB_CONFIG = {
@@ -170,7 +167,7 @@ Coverage: Connection management, context managers, error handling
 """
 import pytest
 import psycopg2
-from backend.database import get_db_connection, get_db_cursor, DATABASE_CONFIG
+from src.backend.database import get_db_connection, get_db_cursor, DATABASE_CONFIG
 
 @pytest.mark.db
 class TestDatabaseConnection:
