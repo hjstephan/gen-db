@@ -7,7 +7,7 @@ colorama
 coverage
 Faker
 fastapi
--e git+ssh://git@github.com/hjstephan/gen-db.git
+-e git+ssh://git@github.com/hjstephan/gen-db.git@main#egg
 h11
 httpcore
 httptools
@@ -31,7 +31,7 @@ PyYAML
 radon
 six
 starlette
--e git+ssh://git@github.com/hjstephan/subgraph.git
+-e git+ssh://git@github.com/hjstephan/subgraph.git@main#egg
 typing-inspection
 typing_extensions
 uvicorn
